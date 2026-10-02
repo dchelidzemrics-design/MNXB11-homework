@@ -1,0 +1,123 @@
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ cat ./run_in_container_calculatePI.sh
+[?2004l#!/bin/sh
+# This script runs the calculatePI.sh script using the container `mnxb11_al9.latest.sif` with minimum required parameters
+# -B mounts the project directory inside the container so that is visible also inside the container
+apptainer run -B /projects:/projects /projects/hep/fs11/share/mnxb11/containers/mnxb11_al9.latest.sif ./calculatePI_setup.sh
+
+
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ d[Kcat[K[K[Kcat ./calculatepi.sbatch-david.sh
+[?2004l#!/bin/sh
+
+#SBATCH --job-name="MNXB11 Pi David"
+#SBATCH --account=hep2023-1-6
+#SBATCH --time=00:10:00
+#SBATCH --mem=30G
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --output=calculatePI-%j.out
+
+# Launch the calculatePI.sh application script using the container script
+./run_in_container_calculatePI.sh
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ d[Kca[K[Ksbatch calculatepi.sbatch-david.sh
+[?2004lSubmitted batch job 3780157
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ squeue -j 3780157
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3780157       hep MNXB11 P   davche  R       0:13      1 cx08
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ scontrol show job 3780157
+[?2004lJobId=3780157 JobName=MNXB11 Pi David
+   UserId=davche(400217) GroupId=davche(400217) MCS_label=N/A
+   Priority=64495 Nice=0 Account=hep2023-1-6 QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:25 TimeLimit=00:10:00 TimeMin=N/A
+   SubmitTime=2026-10-02T16:28:50 EligibleTime=2026-10-02T16:28:50
+   AccrueTime=2026-10-02T16:28:50
+   StartTime=2026-10-02T16:28:50 EndTime=2026-10-02T16:38:50 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-02T16:28:50 Scheduler=Main
+   Partition=hep AllocNode:Sid=cosmos-pkf:1505822
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=cx08
+   BatchHost=cx08
+   NumNodes=1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=1,mem=30G,node=1,billing=1
+   AllocTRES=cpu=1,mem=30G,node=1,billing=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=30G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/home/davche/git/MNXB11-homework/homework3/calculatePI/scripts/calculatepi.sbatch-david.sh
+   WorkDir=/home/davche/git/MNXB11-homework/homework3/calculatePI/scripts
+   StdErr=/home/davche/git/MNXB11-homework/homework3/calculatePI/scripts/calculatePI-3780157.out
+   StdIn=/dev/null
+   StdOut=/home/davche/git/MNXB11-homework/homework3/calculatePI/scripts/calculatePI-3780157.out
+   Power=
+   TresPerTask=cpu:1
+   
+
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ tail -n 20 calculatePI-37scontrol show job 3780157[8Pqueue -j[C[C[C[C[C[C[C[Cbatch calculatepi.sbatch-david.sh[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1Pcat ./calculatepi.sbatch-david.shrun_in_container_calculatePI.sh[4Pcalculatepi.sbatch-david.sh[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Csbatch calculatepi.sbatch-david.sh[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[17Pqueue -j 3780157[8@control show job[C[C[C[C[C[C[C[Ctail -n 20 calculatePI-37scontrol show job 3780157[8Pqueue -j[C[C[C[C[C[C[C[Cbatch calculatepi.sbatch-david.sh[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1Pcat ./calculatepi.sbatch-david.shrun_in_container_calculatePI.sh[4Pcalculatepi.sbatch-david.sh[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Csbatch calculatepi.sbatch-david.sh[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[17Pqueue -j 3780157[8@control show job[C[C[C[C[C[C[C[Ctail -n 20 calculatePI-37[K[davche@cosmos-pkf scripts]$ tail -n 20 calculatePI-37[K[davche@cosmos-pkf scripts]$ tail -n 20 calculatePI-3780157.out
+[?2004lProcessing datapoint: 299981000 of 300000000
+Processing datapoint: 299982000 of 300000000
+Processing datapoint: 299983000 of 300000000
+Processing datapoint: 299984000 of 300000000
+Processing datapoint: 299985000 of 300000000
+Processing datapoint: 299986000 of 300000000
+Processing datapoint: 299987000 of 300000000
+Processing datapoint: 299988000 of 300000000
+Processing datapoint: 299989000 of 300000000
+Processing datapoint: 299990000 of 300000000
+Processing datapoint: 299991000 of 300000000
+Processing datapoint: 299992000 of 300000000
+Processing datapoint: 299993000 of 300000000
+Processing datapoint: 299994000 of 300000000
+Processing datapoint: 299995000 of 300000000
+Processing datapoint: 299996000 of 300000000
+Processing datapoint: 299997000 of 300000000
+Processing datapoint: 299998000 of 300000000
+Processing datapoint: 299999000 of 300000000
+Graph creation in progress...
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ squeue 3780157- 3780157[1P 3780157[C 3780157- 3780157j 3780157[C[C[C[C[C[C[1P 3780157j 3780157[C[C[C[C[C[C[C[C
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3780157       hep MNXB11 P   davche  R       3:07      1 cx08
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ squeue -j 3780157
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3780157       hep MNXB11 P   davche  R       4:57      1 cx08
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ squeue -j 3780157
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3780157       hep MNXB11 P   davche  R       6:37      1 cx08
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ squeue -j 3780157
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ tail -n 20 calculatePI-3780157.out
+[?2004lProcessing datapoint: 299983000 of 300000000
+Processing datapoint: 299984000 of 300000000
+Processing datapoint: 299985000 of 300000000
+Processing datapoint: 299986000 of 300000000
+Processing datapoint: 299987000 of 300000000
+Processing datapoint: 299988000 of 300000000
+Processing datapoint: 299989000 of 300000000
+Processing datapoint: 299990000 of 300000000
+Processing datapoint: 299991000 of 300000000
+Processing datapoint: 299992000 of 300000000
+Processing datapoint: 299993000 of 300000000
+Processing datapoint: 299994000 of 300000000
+Processing datapoint: 299995000 of 300000000
+Processing datapoint: 299996000 of 300000000
+Processing datapoint: 299997000 of 300000000
+Processing datapoint: 299998000 of 300000000
+Processing datapoint: 299999000 of 300000000
+Graph creation in progress...
+Info in <TCanvas::Print>: png file pi_hit_miss.png has been created
+Estimated pi = 3.14154
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ sbatch --job-name=WASTED calculatepi.sbatch-david.s h
+[?2004lSubmitted batch job 3780219
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ sbatch --job-name=WASTED calculatepi.sbatch-david.s h
+[?2004lSubmitted batch job 3780223
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ squeue -u $USER
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3780223       hep   WASTED   davche  R       0:38      1 cx08
+           3780219       hep   WASTED   davche  R       1:24      1 cx08
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ scancel 3780219 3780223
+[?2004lkdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ squeue -u $USER
+[?2004l             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+kdavche@cosmos-pkf:~/git/MNXB11-homework/homework3/calculatePI/scripts\[?2004h[davche@cosmos-pkf scripts]$ exit
+[?2004lexit
